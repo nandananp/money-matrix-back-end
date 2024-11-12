@@ -1,6 +1,7 @@
 package com.cashcontrol.cashcontrol.controller;
 
 import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
+import com.cashcontrol.cashcontrol.model.request.StockRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class AdminController {
     @PostMapping("/create/mutualFund")
     public SuccessResponse createMutualFund(@RequestBody MutualFundRequest mutualFundRequest){
         return adminService.createMutualFund(mutualFundRequest);
+    }
+
+    @PostMapping("/create/stock")
+    public SuccessResponse createStock(@RequestBody StockRequest stockRequest){
+        return adminService.createStock(stockRequest);
     }
 
 

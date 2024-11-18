@@ -1,6 +1,7 @@
 package com.cashcontrol.cashcontrol.controller;
 
 import com.cashcontrol.cashcontrol.model.request.ExpenseRequest;
+import com.cashcontrol.cashcontrol.model.request.JobRequest;
 import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
 import com.cashcontrol.cashcontrol.model.request.StockRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
@@ -32,6 +33,11 @@ public class AdminController {
     @PostMapping("/create/expense")
     public SuccessResponse createExpense(@RequestBody ExpenseRequest expenseRequest){
         return adminService.createExpenseConfiguration(expenseRequest);
+    }
+
+    @PostMapping("/create/job")
+    public SuccessResponse createJob(@RequestBody JobRequest request){
+        return adminService.createJobConfiguration(request);
     }
 
 

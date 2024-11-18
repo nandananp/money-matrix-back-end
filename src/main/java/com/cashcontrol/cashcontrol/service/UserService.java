@@ -15,6 +15,8 @@ public class UserService {
 
     @Autowired
     private UserRepoHandler userRepoHandler;
+    @Autowired
+    private LevelInfoService levelInfoService;
 
 
     //this method is used for user registration

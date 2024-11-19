@@ -16,4 +16,8 @@ public class LevelInfoRepoHandler {
     public List<LevelInfo> findAllInstruction() {
         return levelInfoRepository.findAll();
     }
+
+    public void saveInstruction(LevelInfo levelInfo) {
+        levelInfoRepository.save(levelInfo);
+    }
 }

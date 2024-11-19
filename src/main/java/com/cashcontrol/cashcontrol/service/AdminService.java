@@ -1,12 +1,12 @@
 package com.cashcontrol.cashcontrol.service;
 
-import com.cashcontrol.cashcontrol.model.request.ExpenseRequest;
-import com.cashcontrol.cashcontrol.model.request.JobRequest;
-import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
-import com.cashcontrol.cashcontrol.model.request.StockRequest;
+import com.cashcontrol.cashcontrol.model.request.*;
+import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AdminService {
@@ -19,6 +19,8 @@ public class AdminService {
     private ExpenseService expenseService;
     @Autowired
     private JobService jobService;
+    @Autowired
+    private LevelInfoService levelInfoService;
 
     public SuccessResponse createMutualFund(MutualFundRequest mutualFundRequest) {
         return mutualFundService.createMutualFund(mutualFundRequest);
@@ -34,5 +36,9 @@ public class AdminService {
 
     public SuccessResponse createJobConfiguration(JobRequest request) {
         return jobService.saveJobConfiguration(request);
+    }
+
+    public List<LevelInstructionResponse> createInstruction(InstructionRequest instructionRequest) {
+        return levelInfoService.saveInstruction(instructionRequest);
     }
 }

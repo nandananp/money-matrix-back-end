@@ -1,4 +1,4 @@
-package com.cashcontrol.cashcontrol.model.response;
+package com.cashcontrol.cashcontrol.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,11 +7,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class LevelInstructionResponse {
+@AllArgsConstructor
+public class InstructionRequest {
 
-    private Integer level;
+    private Integer levelNumber;
 
     private String instruction;
 }

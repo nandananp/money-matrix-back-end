@@ -21,10 +21,10 @@ public class LevelInfo {
     private Long id;
 
     @Column(name = "level_number")
-    private String levelNumber;
+    private Integer levelNumber;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "instruction")
+    private String instruction;
 
 
 

@@ -1,6 +1,7 @@
 package com.cashcontrol.cashcontrol.service;
 
 import com.cashcontrol.cashcontrol.entity.LevelInfo;
+import com.cashcontrol.cashcontrol.model.request.InstructionRequest;
 import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.LevelInfoRepoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,16 @@ public class LevelInfoService {
         return levelInfos.stream().map(levelInfo -> {
             LevelInstructionResponse instructionResponse = new LevelInstructionResponse();
             instructionResponse.setLevel(levelInfo.getLevelNumber());
-            instructionResponse.setInstruction(levelInfo.getDescription());
+            instructionResponse.setInstruction(levelInfo.getInstruction());
             return instructionResponse;
         }).collect(Collectors.toList());
+    }
+
+    public List<LevelInstructionResponse> saveInstruction(InstructionRequest instructionRequest) {
+        LevelInfo levelInfo = new LevelInfo();
+        levelInfo.setLevelNumber(instructionRequest.getLevelNumber());
+        levelInfo.setInstruction(instructionRequest.getInstruction());
+        levelInfoRepoHandler.saveInstruction(levelInfo);
+        return getMeFullInstruction();
     }
 }

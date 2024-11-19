@@ -1,9 +1,7 @@
 package com.cashcontrol.cashcontrol.controller;
 
-import com.cashcontrol.cashcontrol.model.request.ExpenseRequest;
-import com.cashcontrol.cashcontrol.model.request.JobRequest;
-import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
-import com.cashcontrol.cashcontrol.model.request.StockRequest;
+import com.cashcontrol.cashcontrol.model.request.*;
+import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/admin")
@@ -38,6 +38,11 @@ public class AdminController {
     @PostMapping("/create/job")
     public SuccessResponse createJob(@RequestBody JobRequest request){
         return adminService.createJobConfiguration(request);
+    }
+
+    @PostMapping("/create/level/instruction")
+    public List<LevelInstructionResponse> createInstructions(@RequestBody InstructionRequest instructionRequest){
+        return adminService.createInstruction(instructionRequest);
     }
 
 

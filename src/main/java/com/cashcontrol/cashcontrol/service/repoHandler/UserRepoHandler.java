@@ -8,6 +8,8 @@ import com.cashcontrol.cashcontrol.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserRepoHandler {
 
@@ -23,4 +25,7 @@ public class UserRepoHandler {
         return successResponse;
     }
 
+    public User findUserByUserId(String userId) {
+        return userRepository.findByUserId(UUID.fromString(userId));
+    }
 }

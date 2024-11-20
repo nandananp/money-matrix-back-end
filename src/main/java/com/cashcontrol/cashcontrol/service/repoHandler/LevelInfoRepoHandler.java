@@ -20,4 +20,8 @@ public class LevelInfoRepoHandler {
     public void saveInstruction(LevelInfo levelInfo) {
         levelInfoRepository.save(levelInfo);
     }
+
+    public List<LevelInfo> findAllInstructionOneLevel(String id) {
+        return levelInfoRepository.findAllByLevelNumber(Integer.getInteger(id));
+    }
 }

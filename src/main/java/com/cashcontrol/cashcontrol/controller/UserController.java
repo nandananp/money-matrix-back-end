@@ -37,6 +37,30 @@ public class UserController {
         return levelInfoService.getMeFullInstruction();
     }
 
+    //fetch instruction of a particular level
+    @GetMapping("/info/levels/{id}")
+    private List<LevelInstructionResponse> getMeInstructionOfLevel(@PathVariable(value = "id")String id){
+        return levelInfoService.getMeFullInstructionOfLevel(id);
+    }
+
+    @PostMapping("/start/game/{userId}")
+    public SuccessResponse startGame(@PathVariable(value = "userId")String userId){
+        return userService.startGame(userId);
+    }
+
+    //check previous game status with user id -> if present enable the continue button as well with start button
+
+    //continue the existing game with user id
+
+
+
+
+
+
+
+
+
+
 
 
 

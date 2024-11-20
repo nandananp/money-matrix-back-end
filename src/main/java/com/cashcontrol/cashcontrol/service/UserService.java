@@ -1,7 +1,9 @@
 package com.cashcontrol.cashcontrol.service;
 
+import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.User;
 import com.cashcontrol.cashcontrol.entity.MutualFund;
+import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserRepoHandler;
@@ -17,6 +19,8 @@ public class UserService {
     private UserRepoHandler userRepoHandler;
     @Autowired
     private LevelInfoService levelInfoService;
+    @Autowired
+    private GameStartService gameStartService;
 
 
     //this method is used for user registration
@@ -31,6 +35,16 @@ public class UserService {
         return userRepoHandler.saveUser(user);
     }
 
+
+
+    public SuccessResponse startGame(String userId) {
+        //validate the user
+        User user = userRepoHandler.findUserByUserId(userId);
+        if (user == null){
+            throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
+        }
+        return gameStartService.gameInitiation(user.getUserId());
+    }
 }
 
 

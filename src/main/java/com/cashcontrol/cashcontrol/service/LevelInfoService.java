@@ -36,4 +36,18 @@ public class LevelInfoService {
         levelInfoRepoHandler.saveInstruction(levelInfo);
         return getMeFullInstruction();
     }
+
+    public List<LevelInstructionResponse> getMeFullInstructionOfLevel(String id) {
+
+        List<LevelInfo> levelInfos = levelInfoRepoHandler.findAllInstructionOneLevel(id);
+
+        return levelInfos.stream().map(levelInfo -> {
+            LevelInstructionResponse instructionResponse = new LevelInstructionResponse();
+            instructionResponse.setLevel(levelInfo.getLevelNumber());
+            instructionResponse.setInstruction(levelInfo.getInstruction());
+            return instructionResponse;
+        }).collect(Collectors.toList());
+
+
+    }
 }

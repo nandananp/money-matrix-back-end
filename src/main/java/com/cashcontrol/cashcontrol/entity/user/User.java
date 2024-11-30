@@ -1,4 +1,4 @@
-package com.cashcontrol.cashcontrol.entity;
+package com.cashcontrol.cashcontrol.entity.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

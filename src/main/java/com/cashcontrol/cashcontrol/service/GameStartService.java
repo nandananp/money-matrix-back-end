@@ -1,15 +1,12 @@
 package com.cashcontrol.cashcontrol.service;
 
-import com.cashcontrol.cashcontrol.entity.Status;
-import com.cashcontrol.cashcontrol.entity.UserJobInfo;
+import com.cashcontrol.cashcontrol.entity.admin.Status;
+import com.cashcontrol.cashcontrol.entity.user.UserJobInfo;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
-import com.cashcontrol.cashcontrol.service.repoHandler.JobRepoHandler;
-import com.cashcontrol.cashcontrol.service.repoHandler.UserJobInfoRepoHandler;
-import com.cashcontrol.cashcontrol.service.repoHandler.UserRepoHandler;
+import com.cashcontrol.cashcontrol.service.repoHandler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +18,10 @@ public class GameStartService {
     private UserJobInfoRepoHandler userJobInfoRepoHandler;
     @Autowired
     private JobRepoHandler jobRepoHandler;
+    @Autowired
+    UserMutualFundInfoHandler userMutualFundInfoHandler;
+    @Autowired
+    UserStockInfoRepoHandler userStockInfoRepoHandler;
 
 
     public SuccessResponse gameInitiation(UUID userId) {

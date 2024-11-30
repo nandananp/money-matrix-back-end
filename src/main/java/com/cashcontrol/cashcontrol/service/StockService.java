@@ -1,6 +1,6 @@
 package com.cashcontrol.cashcontrol.service;
 
-import com.cashcontrol.cashcontrol.entity.Stock;
+import com.cashcontrol.cashcontrol.entity.admin.Stock;
 import com.cashcontrol.cashcontrol.model.request.StockRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.StockRepoHandler;

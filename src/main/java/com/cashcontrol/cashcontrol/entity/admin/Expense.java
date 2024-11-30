@@ -1,4 +1,4 @@
-package com.cashcontrol.cashcontrol.entity;
+package com.cashcontrol.cashcontrol.entity.admin;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,10 +12,10 @@ import java.util.UUID;
 @Entity
 @Setter
 @Getter
-@Table(name = "adm_job")
+@Table(name = "adm_expns")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Job {
+public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,8 +28,11 @@ public class Job {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "salary")
-    private Long salary;
+    @Column(name = "full_amount")
+    private Long fullAmount;
+
+    @Column(name = "emi")
+    private Long emi;
 
 
 

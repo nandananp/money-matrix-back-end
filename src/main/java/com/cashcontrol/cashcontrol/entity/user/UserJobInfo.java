@@ -1,9 +1,6 @@
-package com.cashcontrol.cashcontrol.entity;
+package com.cashcontrol.cashcontrol.entity.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +17,21 @@ import java.util.UUID;
 public class UserJobInfo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "user_id")
     private UUID userId;
 
     @Column(name = "job_id")
     private UUID jobId;
+
+    @Column(name = "job_name")
+    private String jobName;
+
+    @Column(name = "salary")
+    private String salary;
 
     @Column(name = "passive_income")
     private Long passiveIncome;

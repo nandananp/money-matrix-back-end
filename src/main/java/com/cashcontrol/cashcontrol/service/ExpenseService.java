@@ -1,6 +1,6 @@
 package com.cashcontrol.cashcontrol.service;
 
-import com.cashcontrol.cashcontrol.entity.Expense;
+import com.cashcontrol.cashcontrol.entity.admin.Expense;
 import com.cashcontrol.cashcontrol.model.request.ExpenseRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.ExpenseRepoHandler;

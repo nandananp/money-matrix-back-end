@@ -1,7 +1,7 @@
 package com.cashcontrol.cashcontrol.service.repoHandler;
 
 import com.cashcontrol.cashcontrol.constants.AdminConstants;
-import com.cashcontrol.cashcontrol.entity.Stock;
+import com.cashcontrol.cashcontrol.entity.admin.Stock;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,7 @@
 package com.cashcontrol.cashcontrol.service.repoHandler;
 
 import com.cashcontrol.cashcontrol.constants.AdminConstants;
-import com.cashcontrol.cashcontrol.entity.User;
-import com.cashcontrol.cashcontrol.entity.MutualFund;
+import com.cashcontrol.cashcontrol.entity.user.User;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

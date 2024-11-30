@@ -1,6 +1,6 @@
 package com.cashcontrol.cashcontrol.service;
 
-import com.cashcontrol.cashcontrol.entity.LevelInfo;
+import com.cashcontrol.cashcontrol.entity.admin.LevelInfo;
 import com.cashcontrol.cashcontrol.model.request.InstructionRequest;
 import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.LevelInfoRepoHandler;

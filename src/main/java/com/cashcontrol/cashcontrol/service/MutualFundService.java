@@ -1,6 +1,6 @@
 package com.cashcontrol.cashcontrol.service;
 
-import com.cashcontrol.cashcontrol.entity.MutualFund;
+import com.cashcontrol.cashcontrol.entity.admin.MutualFund;
 import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.MutualFundRepoHandler;

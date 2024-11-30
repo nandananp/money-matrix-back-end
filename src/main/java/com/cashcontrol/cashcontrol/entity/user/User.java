@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "usr")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends DBTimeStamp{
 
 
     @Id

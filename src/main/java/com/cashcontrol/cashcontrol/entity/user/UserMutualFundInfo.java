@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(name = "usr_mf_info")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMutualFundInfo {
+public class UserMutualFundInfo extends DBTimeStamp{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

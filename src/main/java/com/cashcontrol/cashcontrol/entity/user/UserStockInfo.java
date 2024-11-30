@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(name = "usr_stk_info")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserStockInfo {
+public class UserStockInfo extends DBTimeStamp{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

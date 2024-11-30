@@ -3,6 +3,7 @@ package com.cashcontrol.cashcontrol.controller;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
+import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
 import com.cashcontrol.cashcontrol.service.LevelInfoService;
 import com.cashcontrol.cashcontrol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/start/game/{userId}")
-    public SuccessResponse startGame(@PathVariable(value = "userId")String userId){
+    public UserGameInfoDetailResponse startGame(@PathVariable(value = "userId")String userId){
         return userService.startGame(userId);
     }
 

@@ -11,10 +11,10 @@ import java.util.UUID;
 @Entity
 @Setter
 @Getter
-@Table(name = "usr_job_info")
+@Table(name = "usr_game_info")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserJobInfo {
+public class UserGameInfo extends DBTimeStamp{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,7 +31,7 @@ public class UserJobInfo {
     private String jobName;
 
     @Column(name = "salary")
-    private String salary;
+    private Long salary;
 
     @Column(name = "passive_income")
     private Long passiveIncome;

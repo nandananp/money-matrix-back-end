@@ -5,6 +5,7 @@ import com.cashcontrol.cashcontrol.entity.user.User;
 import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
+import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserRepoHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class UserService {
 
 
 
-    public SuccessResponse startGame(String userId) {
+    public UserGameInfoDetailResponse startGame(String userId) {
         //validate the user
         User user = userRepoHandler.findUserByUserId(userId);
         if (user == null){

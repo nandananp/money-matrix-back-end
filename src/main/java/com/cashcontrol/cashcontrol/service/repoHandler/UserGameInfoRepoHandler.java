@@ -13,7 +13,7 @@ public class UserGameInfoRepoHandler {
     @Autowired
     private UserGameInfoRepository userGameInfoRepository;
 
-    public UserGameInfo findUserJobInfoByUserIdAndStatus(UUID userId, String status) {
+    public UserGameInfo findUserGameInfoByUserIdAndStatus(UUID userId, String status) {
         return userGameInfoRepository.findByUserIdAndStatus(userId,status);
     }
 

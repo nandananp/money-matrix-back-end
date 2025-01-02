@@ -50,6 +50,10 @@ public class UserController {
     }
 
     //check previous game status with user id -> if present enable the continue button as well with start button
+    @GetMapping("/game/status/{userId}")
+    public UserGameInfoDetailResponse checkGameStatus(@PathVariable(value = "userId")String userId){
+        return userService.checkGameStatus(userId);
+    }
 
     //continue the existing game with user id
 

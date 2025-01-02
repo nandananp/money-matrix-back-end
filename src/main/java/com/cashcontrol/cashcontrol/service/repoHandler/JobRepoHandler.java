@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class JobRepoHandler {
@@ -22,5 +23,9 @@ public class JobRepoHandler {
 
     public List<Job> findAllJobsAvailable(){
         return jobRepository.findAll();
+    }
+
+    public Job findById(UUID jobId) {
+        return jobRepository.findById(jobId);
     }
 }

@@ -47,6 +47,15 @@ public class UserService {
         }
         return gameStartService.gameInitiation(user.getUserId());
     }
+
+    public UserGameInfoDetailResponse checkGameStatus(String userId) {
+        User user = userRepoHandler.findUserByUserId(userId);
+        if (user == null){
+            log.info("Exception: user not exist in the system for userId : {} ",userId);
+            throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
+        }
+        return gameStartService.checkGameStatus(user);
+    }
 }
 
 

@@ -7,6 +7,8 @@ import com.cashcontrol.cashcontrol.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StockRepoHandler {
 
@@ -16,5 +18,9 @@ public class StockRepoHandler {
     public SuccessResponse saveStock(Stock stock) {
         stockRepository.save(stock);
         return new SuccessResponse(AdminConstants.STOCK_REGISTER_SUCCESS_RESPONSE);
+    }
+
+    public List<Stock> findAllStocks() {
+        return stockRepository.findAll();
     }
 }

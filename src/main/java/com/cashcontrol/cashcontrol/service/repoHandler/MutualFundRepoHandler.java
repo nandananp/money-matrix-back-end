@@ -7,6 +7,8 @@ import com.cashcontrol.cashcontrol.repository.MutualFundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MutualFundRepoHandler {
 
@@ -16,5 +18,9 @@ public class MutualFundRepoHandler {
     public SuccessResponse saveMutualFund(MutualFund mutualFund) {
         mutualFundRepository.save(mutualFund);
         return new SuccessResponse(AdminConstants.MUTUAL_FUND_REGISTRATION_SUCCESS_RESPONSE);
+    }
+
+    public List<MutualFund> findAllMutualFunds() {
+        return mutualFundRepository.findAll();
     }
 }

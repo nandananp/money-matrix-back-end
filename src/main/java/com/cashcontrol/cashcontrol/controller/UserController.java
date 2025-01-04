@@ -1,9 +1,12 @@
 package com.cashcontrol.cashcontrol.controller;
 
+import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
+import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
+import com.cashcontrol.cashcontrol.service.EventService;
 import com.cashcontrol.cashcontrol.service.LevelInfoService;
 import com.cashcontrol.cashcontrol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private LevelInfoService levelInfoService;
+    @Autowired
+    private EventService eventService;
 
 
     //register user
@@ -55,7 +60,10 @@ public class UserController {
         return userService.checkGameStatus(userId);
     }
 
-    //continue the existing game with user id
+    @GetMapping("/game/next-event")
+    public EventResponse getGameNextEvent() throws InvalidRequestException {
+        return eventService.nextEvent();
+    }
 
 
 

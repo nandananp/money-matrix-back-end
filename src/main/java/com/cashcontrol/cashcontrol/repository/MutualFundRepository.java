@@ -4,6 +4,9 @@ import com.cashcontrol.cashcontrol.entity.admin.MutualFund;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 public interface MutualFundRepository extends JpaRepository<MutualFund,Long> {
+    MutualFund findById(UUID uuid);
 }

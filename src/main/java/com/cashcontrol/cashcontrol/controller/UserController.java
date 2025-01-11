@@ -1,6 +1,7 @@
 package com.cashcontrol.cashcontrol.controller;
 
 import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
+import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
@@ -64,6 +65,13 @@ public class UserController {
     public EventResponse getGameNextEvent() throws InvalidRequestException {
         return eventService.nextEvent();
     }
+
+    @PostMapping("/game/event-decision/{userId}")
+    public SuccessResponse eventDecision(@PathVariable(value = "userId")String userId,
+                                         @RequestBody EventRequest eventRequest) throws InvalidRequestException {
+        return userService.eventDecision(userId,eventRequest);
+    }
+
 
 
 

@@ -23,4 +23,16 @@ public class UserStockInfoRepoHandler {
     public List<UserStockInfo> findUserStocksByUserId(UUID userId) {
         return userStockInfoRepository.findAllByUserId(userId);
     }
+
+    public UserStockInfo findUserStocksByUserIdAndStockId(UUID userId, UUID id) {
+        return userStockInfoRepository.findByUserIdAndStockId(userId,id);
+    }
+
+    public void deleteStockByUserIdAndStockId(UUID userId, UUID stockId) {
+        userStockInfoRepository.deleteByUserIdAndStockId(userId,stockId);
+    }
+
+    public void saveUserStockInfo(UserStockInfo userNewStock) {
+        userStockInfoRepository.save(userNewStock);
+    }
 }

@@ -6,20 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UserMutualFundInfoHandler {
 
     @Autowired
-    private UserMutualFundInfoRepository userMutualFundInfoRepository;
+    private UserMutualFundInfoRepository userLiabilityInfoRepository;
 
     public List<UserMutualFundInfo> findUserMutualFundsByUserId(UUID userId) {
-        return userMutualFundInfoRepository.findAllByUserId(userId);
+        return userLiabilityInfoRepository.findAllByUserId(userId);
     }
 
     public void deleteAllMutualFundHistoryByUserId(UUID userId) {
-        userMutualFundInfoRepository.deleteAllByUserId(userId);
+        userLiabilityInfoRepository.deleteAllByUserId(userId);
+    }
+
+    public void saveUserMutualFundInfo(UserMutualFundInfo userMutualFundInfo) {
+        userLiabilityInfoRepository.save(userMutualFundInfo);
+    }
+
+    public List<UserMutualFundInfo> findUserMutualFundsByUserIdAndMutualFundId(UUID userId, UUID id) {
+        return userLiabilityInfoRepository.findByUserIdAndMutualFundId(userId,id);
     }
 }

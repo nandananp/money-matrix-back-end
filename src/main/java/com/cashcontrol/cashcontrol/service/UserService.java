@@ -2,7 +2,9 @@ package com.cashcontrol.cashcontrol.service;
 
 import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.user.User;
+import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
 import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
+import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
@@ -22,6 +24,8 @@ public class UserService {
     private LevelInfoService levelInfoService;
     @Autowired
     private GameStartService gameStartService;
+    @Autowired
+    private EventService eventService;
 
 
     //this method is used for user registration
@@ -55,6 +59,15 @@ public class UserService {
             throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
         }
         return gameStartService.checkGameStatus(user);
+    }
+
+    public SuccessResponse eventDecision(String userId, EventRequest eventRequest) throws InvalidRequestException {
+        User user = userRepoHandler.findUserByUserId(userId);
+        if (user == null){
+            log.info("Exception: user not exist in the system for userId : {} ",userId);
+            throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
+        }
+        return eventService.eventDecision(userId,eventRequest);
     }
 }
 

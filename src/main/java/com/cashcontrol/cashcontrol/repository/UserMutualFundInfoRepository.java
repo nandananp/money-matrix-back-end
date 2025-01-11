@@ -13,4 +13,6 @@ public interface UserMutualFundInfoRepository extends JpaRepository<UserMutualFu
     List<UserMutualFundInfo> findAllByUserId(UUID userId);
 
     void deleteAllByUserId(UUID userId);
+
+    List<UserMutualFundInfo> findByUserIdAndMutualFundId(UUID userId, UUID id);
 }

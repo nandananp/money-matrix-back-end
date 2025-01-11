@@ -20,6 +20,7 @@ public class UserGameInfoDetailResponse {
     private Long passiveIncome;
     private List<UserMutualFundResponse> mutualFunds;
     private List<UserStockResponse> stocks;
+    private List<UserLiabilityInfoResponse> liabilities;
     private String gameStatus;
 
 }

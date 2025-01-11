@@ -11,10 +11,10 @@ import java.util.UUID;
 @Entity
 @Setter
 @Getter
-@Table(name = "usr_game_info")
+@Table(name = "usr_lblty")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserGameInfo extends DBTimeStamp{
+public class UserLiabilityInfo extends DBTimeStamp{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,25 +24,10 @@ public class UserGameInfo extends DBTimeStamp{
     @Column(name = "user_id")
     private UUID userId;
 
-    @Column(name = "job_id")
-    private UUID jobId;
+    @Column(name = "lblty_name")
+    private String liabilityName;
 
-    @Column(name = "job_name")
-    private String jobName;
-
-    @Column(name = "salary")
-    private Long salary;
-
-    @Column(name = "passive_income")
-    private Long passiveIncome;
-
-    @Column(name = "status")
-    private String status;
-
-    @Column(name = "savings")
-    private Long savings;
-
-
-
+    @Column(name = "emi")
+    private String emi;
 
 }

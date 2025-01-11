@@ -13,4 +13,8 @@ public interface UserStockInfoRepository extends JpaRepository<UserStockInfo,Lon
     void deleteAllByUserId(UUID userId);
 
     List<UserStockInfo> findAllByUserId(UUID userId);
+
+    UserStockInfo findByUserIdAndStockId(UUID userId, UUID id);
+
+    void deleteByUserIdAndStockId(UUID userId, UUID stockId);
 }

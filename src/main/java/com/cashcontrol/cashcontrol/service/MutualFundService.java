@@ -1,11 +1,18 @@
 package com.cashcontrol.cashcontrol.service;
 
 import com.cashcontrol.cashcontrol.constants.AdminConstants;
+import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.admin.MutualFund;
+import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
+import com.cashcontrol.cashcontrol.entity.user.UserMutualFundInfo;
+import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
+import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
 import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.MutualFundRepoHandler;
+import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
+import com.cashcontrol.cashcontrol.service.repoHandler.UserMutualFundInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +24,10 @@ public class MutualFundService {
 
     @Autowired
     private MutualFundRepoHandler mutualFundRepoHandler;
+    @Autowired
+    private UserMutualFundInfoHandler userMutualFundInfoHandler;
+    @Autowired
+    private UserGameInfoRepoHandler userGameInfoRepoHandler;
 
 
 
@@ -52,6 +63,33 @@ public class MutualFundService {
         eventResponse.setEventMandatory(false);
         return eventResponse;
 
+
+    }
+
+    public SuccessResponse mutualFundDecision(EventRequest eventRequest, UserGameInfo userGameInfo) throws InvalidRequestException {
+
+        if (eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_ACCEPT) ||
+                eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_BUY)){
+            MutualFund mutualFund =  mutualFundRepoHandler.findByMutualFundId(eventRequest.getEventId());
+            if (mutualFund == null){
+                throw new InvalidRequestException("MutualFund not found with this event id");
+            }
+            List<UserMutualFundInfo> existingUserMutualFund = userMutualFundInfoHandler.findUserMutualFundsByUserIdAndMutualFundId(userGameInfo.getUserId(),mutualFund.getId());
+            if (existingUserMutualFund != null){
+                throw new InvalidRequestException("currently you can't start same mutual fund..");
+            }
+            UserMutualFundInfo userMutualFundInfo = new UserMutualFundInfo();
+            userMutualFundInfo.setUserId(userGameInfo.getUserId());
+            userMutualFundInfo.setMutualFundId(mutualFund.getId());
+            userMutualFundInfo.setTotalReturn(mutualFund.getMinimumAmount());
+            userMutualFundInfoHandler.saveUserMutualFundInfo(userMutualFundInfo);
+            Long savings = userGameInfo.getSavings();
+            Long savingBalance = savings - mutualFund.getMinimumAmount();
+            userGameInfo.setSavings(savingBalance);
+            userGameInfoRepoHandler.save(userGameInfo);
+
+        }
+        return new SuccessResponse("event updated successfully");
 
     }
 }

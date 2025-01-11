@@ -5,12 +5,10 @@ import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.admin.Job;
 import com.cashcontrol.cashcontrol.entity.admin.Status;
 import com.cashcontrol.cashcontrol.entity.admin.Stock;
-import com.cashcontrol.cashcontrol.entity.user.User;
-import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
-import com.cashcontrol.cashcontrol.entity.user.UserMutualFundInfo;
-import com.cashcontrol.cashcontrol.entity.user.UserStockInfo;
+import com.cashcontrol.cashcontrol.entity.user.*;
 import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
 import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
+import com.cashcontrol.cashcontrol.model.response.UserLiabilityInfoResponse;
 import com.cashcontrol.cashcontrol.model.response.UserMutualFundResponse;
 import com.cashcontrol.cashcontrol.model.response.UserStockResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.*;
@@ -34,9 +32,12 @@ public class GameStartService {
     @Autowired
     private GameDeActivateService gameDeActivateService;
     @Autowired
-    UserMutualFundInfoHandler userMutualFundInfoHandler;
+    private UserMutualFundInfoHandler userMutualFundInfoHandler;
     @Autowired
-    UserStockInfoRepoHandler userStockInfoRepoHandler;
+    private UserStockInfoRepoHandler userStockInfoRepoHandler;
+    @Autowired
+    private UserLiabilityInfoHandler userLiabilityInfoHandler;
+
 
 
 
@@ -71,7 +72,8 @@ public class GameStartService {
 
         List<UserMutualFundInfo> mutualFunds = userMutualFundInfoHandler.findUserMutualFundsByUserId(userId);
         List<UserStockInfo> userStocks = userStockInfoRepoHandler.findUserStocksByUserId(userId);
-        return getUserGameInfoDetailResponse(userGameInfo,mutualFunds,userStocks);
+        List<UserLiabilityInfo> liabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userId);
+        return getUserGameInfoDetailResponse(userGameInfo,mutualFunds,userStocks,liabilities);
 
     }
 
@@ -88,12 +90,16 @@ public class GameStartService {
         }
         List<UserMutualFundInfo> mutualFunds = userMutualFundInfoHandler.findUserMutualFundsByUserId(user.getUserId());
         List<UserStockInfo> userStocks = userStockInfoRepoHandler.findUserStocksByUserId(user.getUserId());
-        return getUserGameInfoDetailResponse(userGameInfo,mutualFunds,userStocks);
+        List<UserLiabilityInfo> liabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(user.getUserId());
+        return getUserGameInfoDetailResponse(userGameInfo,mutualFunds,userStocks,liabilities);
 
 
     }
 
-    private static UserGameInfoDetailResponse getUserGameInfoDetailResponse(UserGameInfo userGameInfo,List<UserMutualFundInfo> userMutualFunds, List<UserStockInfo> userStocks) {
+    private static UserGameInfoDetailResponse getUserGameInfoDetailResponse(UserGameInfo userGameInfo,
+                                                                            List<UserMutualFundInfo> userMutualFunds,
+                                                                            List<UserStockInfo> userStocks,
+                                                                            List<UserLiabilityInfo> liabilities) {
         UserGameInfoDetailResponse gameInfoDetailResponse = new UserGameInfoDetailResponse();
         gameInfoDetailResponse.setUserId(userGameInfo.getUserId().toString());
         gameInfoDetailResponse.setJobId(userGameInfo.getJobId().toString());
@@ -102,8 +108,22 @@ public class GameStartService {
         gameInfoDetailResponse.setPassiveIncome(userGameInfo.getPassiveIncome());
         gameInfoDetailResponse.setMutualFunds(getUserMutualFundResponse(userMutualFunds));
         gameInfoDetailResponse.setStocks(getUserStockResponse(userStocks));
+        gameInfoDetailResponse.setLiabilities(getUserLiabilityResponse(liabilities));
         gameInfoDetailResponse.setGameStatus(userGameInfo.getStatus());
         return gameInfoDetailResponse;
+    }
+
+    private static List<UserLiabilityInfoResponse> getUserLiabilityResponse(List<UserLiabilityInfo> liabilities) {
+        List<UserLiabilityInfoResponse> liabilityInfoResponses = new ArrayList<>();
+        if (!liabilities.isEmpty()){
+            liabilities.forEach(liability -> liabilityInfoResponses.add(new
+                    UserLiabilityInfoResponse(
+                            liability.getId().toString(),
+                            liability.getLiabilityName(),
+                            liability.getEmi())));
+        }
+        return liabilityInfoResponses;
+
     }
 
     private static List<UserStockResponse> getUserStockResponse(List<UserStockInfo> userStocks) {

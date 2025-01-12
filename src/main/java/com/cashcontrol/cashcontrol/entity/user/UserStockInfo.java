@@ -33,9 +33,6 @@ public class UserStockInfo extends DBTimeStamp{
     @Column(name = "stock_count")
     private Long stockCount;
 
-    @Column(name = "current_price")
-    private Long currentPrice;
-
     @Column(name = "invested_amount")
     private Long investedAmount;
 

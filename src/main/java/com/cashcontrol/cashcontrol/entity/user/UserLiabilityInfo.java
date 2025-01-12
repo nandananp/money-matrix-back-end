@@ -24,6 +24,9 @@ public class UserLiabilityInfo extends DBTimeStamp{
     @Column(name = "user_id")
     private UUID userId;
 
+    @Column(name = "lblty_id")
+    private UUID liabilityId;
+
     @Column(name = "lblty_name")
     private String liabilityName;
 

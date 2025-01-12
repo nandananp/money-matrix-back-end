@@ -77,7 +77,7 @@ public class StockService {
                 throw new InvalidRequestException("currently you don have this stock in you Asset column..!");
             }else {
                 Long stockCount = userStockInfo.getStockCount();
-                Long currentPrice = userStockInfo.getCurrentPrice();
+                Long currentPrice = stock.getCurrentPrice();
                 Long investedAmount = userStockInfo.getInvestedAmount();
                 Long savings = userGameInfo.getSavings();
                 savings = savings + currentPrice;
@@ -96,7 +96,6 @@ public class StockService {
                 userNewStock.setStockId(stock.getId());
                 userNewStock.setStockName(stock.getName());
                 userNewStock.setUserId(userGameInfo.getUserId());
-                userNewStock.setCurrentPrice(stock.getCurrentPrice());
                 userNewStock.setStockCount(eventRequest.getEventCount());
 
                 Long savings = userGameInfo.getSavings();

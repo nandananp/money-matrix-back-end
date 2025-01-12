@@ -30,7 +30,13 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(InvalidCredentialException.class)
+    public ResponseEntity<ErrorMessage> invalidCredentialException(InvalidCredentialException exception, WebRequest request){
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST.value(),
+                new Date(),exception.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorMessage>(message,HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

@@ -2,11 +2,9 @@ package com.cashcontrol.cashcontrol.controller;
 
 import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
 import com.cashcontrol.cashcontrol.model.request.EventRequest;
+import com.cashcontrol.cashcontrol.model.request.LoginRequest;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
-import com.cashcontrol.cashcontrol.model.response.EventResponse;
-import com.cashcontrol.cashcontrol.model.response.LevelInstructionResponse;
-import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
-import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
+import com.cashcontrol.cashcontrol.model.response.*;
 import com.cashcontrol.cashcontrol.service.EventService;
 import com.cashcontrol.cashcontrol.service.LevelInfoService;
 import com.cashcontrol.cashcontrol.service.UserService;
@@ -29,13 +27,16 @@ public class UserController {
 
     //register user
     @PostMapping("/register")
-    public SuccessResponse registerUser(@RequestBody UserRegistrationRequest registrationRequest){
+    public SuccessResponse registerUser(@RequestBody UserRegistrationRequest registrationRequest) throws InvalidRequestException {
 
         return userService.registerUser(registrationRequest);
     }
 
     //login
-
+    @PostMapping("/login")
+    public LoginResponse loginUser(@RequestBody LoginRequest loginRequest){
+        return userService.loginUser(loginRequest);
+    }
 
 
     //fetch all instruction

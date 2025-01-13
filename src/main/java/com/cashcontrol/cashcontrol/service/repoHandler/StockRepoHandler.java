@@ -28,4 +28,12 @@ public class StockRepoHandler {
     public Stock findStockByStockId(String eventId) {
         return stockRepository.findById(UUID.fromString(eventId));
     }
+
+    public List<Stock> findAllStocksByIds(List<Long> stockIds) {
+        return stockRepository.findAllById(stockIds);
+    }
+
+    public void saveAllStocks(List<Stock> stocks) {
+        stockRepository.saveAll(stocks);
+    }
 }

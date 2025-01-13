@@ -37,6 +37,8 @@ public class GameStartService {
     private UserStockInfoRepoHandler userStockInfoRepoHandler;
     @Autowired
     private UserLiabilityInfoHandler userLiabilityInfoHandler;
+    @Autowired
+    private ExpenseService expenseService;
 
 
 
@@ -67,8 +69,11 @@ public class GameStartService {
         userGameInfo.setJobName(job.getName());
         userGameInfo.setSalary(job.getSalary());
         userGameInfo.setPassiveIncome(0L);
+        userGameInfo.setSavings(job.getSalary());
         userGameInfo.setStatus(Status.ACTIVE.name());
         userGameInfoRepoHandler.save(userGameInfo);
+        //adding expenses to the user
+        expenseService.updateExpenses(userId);
 
         List<UserMutualFundInfo> mutualFunds = userMutualFundInfoHandler.findUserMutualFundsByUserId(userId);
         List<UserStockInfo> userStocks = userStockInfoRepoHandler.findUserStocksByUserId(userId);
@@ -120,7 +125,9 @@ public class GameStartService {
                     UserLiabilityInfoResponse(
                             liability.getId().toString(),
                             liability.getLiabilityName(),
-                            liability.getEmi())));
+                            liability.getEmi().toString(),
+                            liability.getFullAmount().toString()
+                    )));
         }
         return liabilityInfoResponses;
 
@@ -149,6 +156,7 @@ public class GameStartService {
                 userMutualFund.setMutualFundId(userMutualFundInfo.getId().toString());
                 userMutualFund.setMutualFundName(userMutualFund.getMutualFundName());
                 userMutualFund.setTotalReturn(userMutualFundInfo.getTotalReturn());
+                userMutualFund.setSipAmount(userMutualFundInfo.getMinimumAmount());
                 userMutualFundResponses.add(userMutualFund);
             });
         }

@@ -14,6 +14,7 @@ public class UserLiabilityInfoResponse {
     private String liabilityId;
     private String liabilityName;
     private String emi;
+    private String fullAmount;
 
 
 }

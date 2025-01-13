@@ -14,4 +14,12 @@ public class AdminConstants {
     public static final String EVENT_DONATION = "DONATION";
     public static final String EVENT_CREDIT_CARD = "CREDIT_CARD";
     public static final String EVENT_WATER_BILL = "WATER_BILL";
+    public static final String EVENT_CAR = "CAR";
+    public static final String EVENT_PHONE = "PHONE";
+    public static final String EVENT_HOUSE = "HOUSE";
+
+    public static final String LEVEL_ONE = "LEVEL_ONE";
+    public static final String LEVEL_TWO = "LEVEL_TWO";
+    public static final String LEVEL_THREE = "LEVEL_THREE";
+
 }

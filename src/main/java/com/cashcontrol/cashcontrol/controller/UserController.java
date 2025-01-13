@@ -51,15 +51,15 @@ public class UserController {
         return levelInfoService.getMeFullInstructionOfLevel(id);
     }
 
-    @PostMapping("/start/game/{userId}")
-    public UserGameInfoDetailResponse startGame(@PathVariable(value = "userId")String userId){
-        return userService.startGame(userId);
+    @PostMapping("/start/game")
+    public UserGameInfoDetailResponse startGame(){
+        return userService.startGame();
     }
 
     //check previous game status with user id -> if present enable the continue button as well with start button
-    @GetMapping("/game/status/{userId}")
-    public UserGameInfoDetailResponse checkGameStatus(@PathVariable(value = "userId")String userId){
-        return userService.checkGameStatus(userId);
+    @GetMapping("/game/status")
+    public UserGameInfoDetailResponse checkGameStatus(){
+        return userService.checkGameStatus();
     }
 
     @GetMapping("/game/next-event")
@@ -67,10 +67,9 @@ public class UserController {
         return eventService.nextEvent();
     }
 
-    @PostMapping("/game/event-decision/{userId}")
-    public SuccessResponse eventDecision(@PathVariable(value = "userId")String userId,
-                                         @RequestBody EventRequest eventRequest) throws InvalidRequestException {
-        return userService.eventDecision(userId,eventRequest);
+    @PostMapping("/game/event-decision")
+    public SuccessResponse eventDecision(@RequestBody EventRequest eventRequest) throws InvalidRequestException {
+        return userService.eventDecision(eventRequest);
     }
 
 

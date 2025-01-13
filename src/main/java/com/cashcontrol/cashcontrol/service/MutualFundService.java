@@ -82,6 +82,7 @@ public class MutualFundService {
             userMutualFundInfo.setUserId(userGameInfo.getUserId());
             userMutualFundInfo.setMutualFundId(mutualFund.getId());
             userMutualFundInfo.setTotalReturn(mutualFund.getMinimumAmount());
+            userMutualFundInfo.setMinimumAmount(mutualFund.getMinimumAmount());
             userMutualFundInfoHandler.saveUserMutualFundInfo(userMutualFundInfo);
             Long savings = userGameInfo.getSavings();
             Long savingBalance = savings - mutualFund.getMinimumAmount();

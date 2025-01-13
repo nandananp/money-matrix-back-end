@@ -14,5 +14,6 @@ public class UserMutualFundResponse {
     private String mutualFundId;
     private String mutualFundName;
     private Long totalReturn;
+    private Long sipAmount;
 
 }

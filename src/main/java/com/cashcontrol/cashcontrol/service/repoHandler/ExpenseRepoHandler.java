@@ -7,6 +7,8 @@ import com.cashcontrol.cashcontrol.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ExpenseRepoHandler {
 
@@ -16,5 +18,9 @@ public class ExpenseRepoHandler {
     public SuccessResponse saveExpenseConfiguration(Expense expense) {
         expenseRepository.save(expense);
         return new SuccessResponse(AdminConstants.EXPENSE_ADDED_SUCCESSFULLY);
+    }
+
+    public List<Expense> findAllExpenses() {
+        return expenseRepository.findAll();
     }
 }

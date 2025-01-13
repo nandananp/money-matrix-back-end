@@ -3,6 +3,7 @@ package com.cashcontrol.cashcontrol.service;
 import com.cashcontrol.cashcontrol.entity.admin.Status;
 import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
+import com.cashcontrol.cashcontrol.service.repoHandler.UserLiabilityInfoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserMutualFundInfoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserStockInfoRepoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class GameDeActivateService {
     UserStockInfoRepoHandler userStockInfoRepoHandler;
     @Autowired
     private UserGameInfoRepoHandler userGameInfoRepoHandler;
+    @Autowired
+    private UserLiabilityInfoHandler userLiabilityInfoHandler;
 
     public void deActivateUserPreviousGameHistory(UserGameInfo userGameInfo) {
         if (userGameInfo != null){
@@ -30,6 +33,9 @@ public class GameDeActivateService {
 
             //clear all previous stock history
             userStockInfoRepoHandler.deleteAllStockHistoryByUserId(userGameInfo.getUserId());
+
+            //clear all previous liability history
+            userLiabilityInfoHandler.deleteAllLiabilityHistoryByUserId(userGameInfo.getUserId());
         }
     }
 }

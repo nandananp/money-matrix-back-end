@@ -56,7 +56,7 @@ public class StockService {
         eventResponse.setEventDescription(stock.getDescription());
         eventResponse.setEventMinimumAmount(stock.getMinimumPrice());
         eventResponse.setEventMaximumAmount(stock.getMaximumPrice());
-        eventResponse.setEventCurrentPrice(calculateCurrentPrice(stock.getMinimumPrice(),stock.getMaximumPrice()));
+        eventResponse.setEventCurrentPrice(stock.getCurrentPrice());
         eventResponse.setEventMandatory(false);
         return eventResponse;
     }

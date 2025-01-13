@@ -11,6 +11,7 @@ import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.LoginResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
+import com.cashcontrol.cashcontrol.service.core.SecurityUtil;
 import com.cashcontrol.cashcontrol.service.jwt.JWTService;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserRepoHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +85,9 @@ public class UserService {
     }
 
 
-    public UserGameInfoDetailResponse startGame(String userId) {
+    public UserGameInfoDetailResponse startGame() {
+        //user id can be fetched from spring boot security context
+        String userId = SecurityUtil.currentUserId();
         //validate the user
         User user = userRepoHandler.findUserByUserId(userId);
         if (user == null){
@@ -95,7 +97,9 @@ public class UserService {
         return gameStartService.gameInitiation(user.getUserId());
     }
 
-    public UserGameInfoDetailResponse checkGameStatus(String userId) {
+    public UserGameInfoDetailResponse checkGameStatus() {
+        //user id can be fetched from spring boot security context
+        String userId = SecurityUtil.currentUserId();
         User user = userRepoHandler.findUserByUserId(userId);
         if (user == null){
             log.info("Exception: user not exist in the system for userId : {} ",userId);
@@ -104,7 +108,9 @@ public class UserService {
         return gameStartService.checkGameStatus(user);
     }
 
-    public SuccessResponse eventDecision(String userId, EventRequest eventRequest) throws InvalidRequestException {
+    public SuccessResponse eventDecision(EventRequest eventRequest) throws InvalidRequestException {
+        //user id can be fetched from spring boot security context
+        String userId = SecurityUtil.currentUserId();
         User user = userRepoHandler.findUserByUserId(userId);
         if (user == null){
             log.info("Exception: user not exist in the system for userId : {} ",userId);

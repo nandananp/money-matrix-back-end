@@ -4,6 +4,7 @@ import com.cashcontrol.cashcontrol.constants.AdminConstants;
 import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.admin.Expense;
 import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
+import com.cashcontrol.cashcontrol.entity.user.UserLiabilityInfo;
 import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
 import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.ExpenseRequest;
@@ -11,8 +12,13 @@ import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.ExpenseRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
+import com.cashcontrol.cashcontrol.service.repoHandler.UserLiabilityInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.cashcontrol.cashcontrol.constants.UserConstants.*;
 
@@ -25,6 +31,8 @@ public class ExpenseService {
     private ExpenseRepoHandler expenseRepoHandler;
     @Autowired
     private UserGameInfoRepoHandler userGameInfoRepoHandler;
+    @Autowired
+    private UserLiabilityInfoHandler userLiabilityInfoHandler;
 
 
     public SuccessResponse saveExpenseConfiguration(ExpenseRequest expenseRequest) {
@@ -103,5 +111,19 @@ public class ExpenseService {
             userGameInfo.setSavings(savingsBalance);
             userGameInfoRepoHandler.save(userGameInfo);
         return new SuccessResponse("event updated successfully");
+    }
+
+    public void updateExpenses(UUID userId) {
+        List<Expense> expenses = expenseRepoHandler.findAllExpenses();
+        List<UserLiabilityInfo> userLiabilities = expenses.stream().map(expense -> {
+            UserLiabilityInfo userLiabilityInfo = new UserLiabilityInfo();
+            userLiabilityInfo.setUserId(userId);
+            userLiabilityInfo.setLiabilityId(expense.getId());
+            userLiabilityInfo.setEmi(expense.getEmi());
+            userLiabilityInfo.setLiabilityName(expense.getName());
+            userLiabilityInfo.setFullAmount(expense.getFullAmount());
+            return userLiabilityInfo;
+        }).toList();
+        userLiabilityInfoHandler.saveAllLiabilities(userLiabilities);
     }
 }

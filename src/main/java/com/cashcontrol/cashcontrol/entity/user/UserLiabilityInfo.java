@@ -31,6 +31,9 @@ public class UserLiabilityInfo extends DBTimeStamp{
     private String liabilityName;
 
     @Column(name = "emi")
-    private String emi;
+    private Long emi;
+
+    @Column(name = "full_amount")
+    private Long fullAmount;
 
 }

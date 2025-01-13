@@ -34,6 +34,10 @@ public class Expense {
     @Column(name = "emi")
     private Long emi;
 
+    //admin adding expense would be there for every users when they start the game
+    //it will get places in user liability info table and they have to make it zero
+
+
 
 
 }

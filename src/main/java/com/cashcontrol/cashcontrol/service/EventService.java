@@ -8,6 +8,7 @@ import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
+import com.cashcontrol.cashcontrol.service.repoHandler.UserLiabilityInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,10 @@ public class EventService {
     private StockService stockService;
     @Autowired
     private UserGameInfoRepoHandler userGameInfoRepoHandler;
+    @Autowired
+    private FinancialReportService financialReportService;
+    @Autowired
+    private UserLiabilityInfoHandler userLiabilityInfoHandler;
 
 
 
@@ -73,28 +78,25 @@ public class EventService {
         }
         switch (eventRequest.getEventType()){
             case EVENT_CREDIT_CARD -> {
-                return expenseService.creditCardDecision(eventRequest,userGameInfo);
+                expenseService.creditCardDecision(eventRequest,userGameInfo);
             }
             case EVENT_DONATION -> {
-                return expenseService.donationDecision(eventRequest,userGameInfo);
+                expenseService.donationDecision(eventRequest,userGameInfo);
             }
             case EVENT_WATER_BILL -> {
-                return expenseService.waterBillDecision(eventRequest,userGameInfo);
+                expenseService.waterBillDecision(eventRequest,userGameInfo);
             }
             case EVENT_MUTUAL_FUND -> {
-                return mutualFundService.mutualFundDecision(eventRequest,userGameInfo);
+                mutualFundService.mutualFundDecision(eventRequest,userGameInfo);
 
             }
             case EVENT_STOCK -> {
-                return stockService.stockDecision(eventRequest,userGameInfo);
+                stockService.stockDecision(eventRequest,userGameInfo);
             }
 
             default -> throw new InvalidRequestException("invalid event type");
         }
-
-        //update the salary of next month in userGameInfo
-        //update the stock price if any
-        //update the mutual fund return if any
-
+        //need to check if the level satisfied
+        return financialReportService.reflectOnFinancialStatement(userId);
     }
 }

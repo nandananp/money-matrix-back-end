@@ -30,4 +30,7 @@ public class UserMutualFundInfo extends DBTimeStamp{
     @Column(name = "total_return")
     private Long totalReturn;
 
+    @Column(name = "minimum_amount")
+    private Long minimumAmount;
+
 }

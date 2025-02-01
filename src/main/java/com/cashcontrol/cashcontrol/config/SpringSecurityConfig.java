@@ -39,7 +39,8 @@ public class SpringSecurityConfig {
                                 "/v1/user/register",
                                 "/v1/user/role",
                                 "/v1/user/login",
-                                "/v1/users"
+                                "/v1/users",
+                                "/v1/admin/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated())

@@ -76,6 +76,9 @@ public class EventService {
         if (userGameInfo == null){
             throw new ResourceNotFoundException("User game information not found");
         }
+        if (userGameInfo.getSavings() <= 0){
+            throw new InvalidRequestException("Sorry!! you don't have enough money to play the game");
+        }
         switch (eventRequest.getEventType()){
             case EVENT_CREDIT_CARD -> {
                 expenseService.creditCardDecision(eventRequest,userGameInfo);

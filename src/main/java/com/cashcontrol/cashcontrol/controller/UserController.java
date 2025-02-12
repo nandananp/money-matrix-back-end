@@ -56,11 +56,6 @@ public class UserController {
         return userService.startGame();
     }
 
-    //check previous game status with user id -> if present enable the continue button as well with start button
-    @GetMapping("/game/status")
-    public UserGameInfoDetailResponse checkGameStatus(){
-        return userService.checkGameStatus();
-    }
 
     @GetMapping("/game/next-event")
     public EventResponse getGameNextEvent() throws InvalidRequestException {
@@ -71,6 +66,17 @@ public class UserController {
     public SuccessResponse eventDecision(@RequestBody EventRequest eventRequest) throws InvalidRequestException {
         return userService.eventDecision(eventRequest);
     }
+
+    //check previous game status with user id -> if present enable the continue button as well with start button
+    //can be used as financial report
+    @GetMapping("/game/status")
+    public UserGameInfoDetailResponse checkGameStatus(){
+        return userService.checkGameStatus();
+    }
+
+    //update financial report based
+
+
 
 
 

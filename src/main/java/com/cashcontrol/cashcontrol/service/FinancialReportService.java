@@ -6,6 +6,8 @@ import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserLiabilityInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserMutualFundInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserStockInfo;
+import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
+import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class FinancialReportService {
@@ -72,10 +73,9 @@ public class FinancialReportService {
     private void updateTheStockPrice(UserGameInfo userGameInfo) {
         List<UserStockInfo> userStocks = userStockInfoRepoHandler.findUserStocksByUserId(userGameInfo.getUserId());
         if (!userStocks.isEmpty()){
-            List<Long> stockIds = userStocks
+            List<UUID> stockIds = userStocks
                     .stream()
                     .map(UserStockInfo::getStockId)
-                    .map(stockId -> Long.valueOf(String.valueOf(stockId)))
                     .toList();
             List<Stock> stocks = stockRepoHandler.findAllStocksByIds(stockIds);
             for (Stock stock : stocks) {
@@ -111,8 +111,41 @@ public class FinancialReportService {
         }
     }
 
-    //get financial report of a user
-
     //update financial report based
+    public SuccessResponse updateLiabilityDetailsOfUser(String userId,String liabilityId) throws InvalidRequestException {
+
+
+        UserGameInfo userGameInfo = userGameInfoRepoHandler.findUserGameInfoByUserIdAndStatus(UUID.fromString(userId), Status.ACTIVE.name());
+
+
+        UserLiabilityInfo userLiabilityInfo = userLiabilityInfoHandler.findByUserIdAndLiabilityId(userId, liabilityId);
+        if (userLiabilityInfo == null){
+            throw new ResourceNotFoundException("There is no liability found");
+        }
+        //check savings
+        if (userGameInfo.getSavings() < userLiabilityInfo.getFullAmount()){
+            throw new InvalidRequestException("you dont have enough money");
+        }
+
+        userLiabilityInfoHandler.deleteLiabilityByUserIdAndLiabilityIId(userId,liabilityId);
+        Long savings = userGameInfo.getSavings();
+        Long fullAmount = userLiabilityInfo.getFullAmount();
+        savings = savings - fullAmount;
+        userGameInfo.setSavings(savings);
+
+        //find liability
+        List<UserLiabilityInfo> userLiabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userGameInfo.getUserId());
+        if (userLiabilities.isEmpty()){
+            userGameInfo.setLevel(2L);
+        }
+
+        userGameInfoRepoHandler.save(userGameInfo);
+
+        //update financial details
+      // return reflectOnFinancialStatement(userId);
+        return new SuccessResponse("SUCCESS");
+    }
+
+
 
 }

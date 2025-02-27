@@ -27,4 +27,12 @@ public class UserLiabilityInfoHandler {
     public void saveAllLiabilities(List<UserLiabilityInfo> userLiabilities) {
         userLiabilityInfoRepository.saveAll(userLiabilities);
     }
+
+    public void deleteLiabilityByUserIdAndLiabilityIId(String userId,String liabilityId){
+        userLiabilityInfoRepository.deleteAllByUserIdAndLiabilityId(UUID.fromString(userId),UUID.fromString(liabilityId));
+    }
+
+    public UserLiabilityInfo findByUserIdAndLiabilityId(String userId,String liabilityId){
+        return userLiabilityInfoRepository.findByUserIdAndLiabilityId(UUID.fromString(userId),UUID.fromString(liabilityId));
+    }
 }

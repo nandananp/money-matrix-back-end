@@ -71,6 +71,7 @@ public class GameStartService {
         userGameInfo.setPassiveIncome(0L);
         userGameInfo.setSavings(job.getSalary());
         userGameInfo.setStatus(Status.ACTIVE.name());
+        userGameInfo.setLevel(1L);
         userGameInfoRepoHandler.save(userGameInfo);
         //adding expenses to the user
         expenseService.updateExpenses(userId);
@@ -115,6 +116,8 @@ public class GameStartService {
         gameInfoDetailResponse.setStocks(getUserStockResponse(userStocks));
         gameInfoDetailResponse.setLiabilities(getUserLiabilityResponse(liabilities));
         gameInfoDetailResponse.setGameStatus(userGameInfo.getStatus());
+        gameInfoDetailResponse.setSavings(userGameInfo.getSavings());
+        gameInfoDetailResponse.setLevel(userGameInfo.getLevel());
         return gameInfoDetailResponse;
     }
 
@@ -123,7 +126,7 @@ public class GameStartService {
         if (!liabilities.isEmpty()){
             liabilities.forEach(liability -> liabilityInfoResponses.add(new
                     UserLiabilityInfoResponse(
-                            liability.getId().toString(),
+                            liability.getLiabilityId().toString(),
                             liability.getLiabilityName(),
                             liability.getEmi().toString(),
                             liability.getFullAmount().toString()
@@ -152,11 +155,14 @@ public class GameStartService {
         List<UserMutualFundResponse> userMutualFundResponses = new ArrayList<>();
         if(!userMutualFunds.isEmpty()){
             userMutualFunds.forEach(userMutualFundInfo -> {
+
+
                 UserMutualFundResponse userMutualFund = new UserMutualFundResponse();
                 userMutualFund.setMutualFundId(userMutualFundInfo.getId().toString());
-                userMutualFund.setMutualFundName(userMutualFund.getMutualFundName());
+                userMutualFund.setMutualFundName(userMutualFundInfo.getMutualFundName());
                 userMutualFund.setTotalReturn(userMutualFundInfo.getTotalReturn());
                 userMutualFund.setSipAmount(userMutualFundInfo.getMinimumAmount());
+
                 userMutualFundResponses.add(userMutualFund);
             });
         }

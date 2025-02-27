@@ -43,6 +43,8 @@ public class UserService {
     private GameStartService gameStartService;
     @Autowired
     private EventService eventService;
+    @Autowired
+    private FinancialReportService financialReportService;
 
 
 
@@ -119,6 +121,17 @@ public class UserService {
         return eventService.eventDecision(userId,eventRequest);
     }
 
+    public SuccessResponse updateLiabilityDetailsOfUser(String liabilityId) throws InvalidRequestException {
+        //validate the user
+        String userId = SecurityUtil.currentUserId();
+        User user = userRepoHandler.findUserByUserId(userId);
+        if (user == null){
+            log.info("Exception: user not exist in the system for userId : {} ",userId);
+            throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
+        }
+        return financialReportService.updateLiabilityDetailsOfUser(userId,liabilityId);
+
+    }
 }
 
 

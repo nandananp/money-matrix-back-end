@@ -68,14 +68,14 @@ public class MutualFundService {
 
     public SuccessResponse mutualFundDecision(EventRequest eventRequest, UserGameInfo userGameInfo) throws InvalidRequestException {
 
-        if (eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_ACCEPT) ||
-                eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_BUY)){
+        if (eventRequest.getEventDecision().equals(UserConstants.EVENT_DECISION_ACCEPT) ||
+                eventRequest.getEventDecision().equals(UserConstants.EVENT_DECISION_BUY)){
             MutualFund mutualFund =  mutualFundRepoHandler.findByMutualFundId(eventRequest.getEventId());
             if (mutualFund == null){
                 throw new InvalidRequestException("MutualFund not found with this event id");
             }
             List<UserMutualFundInfo> existingUserMutualFund = userMutualFundInfoHandler.findUserMutualFundsByUserIdAndMutualFundId(userGameInfo.getUserId(),mutualFund.getId());
-            if (existingUserMutualFund != null){
+            if (!existingUserMutualFund.isEmpty()){
                 throw new InvalidRequestException("currently you can't start same mutual fund..");
             }
             UserMutualFundInfo userMutualFundInfo = new UserMutualFundInfo();
@@ -83,6 +83,7 @@ public class MutualFundService {
             userMutualFundInfo.setMutualFundId(mutualFund.getId());
             userMutualFundInfo.setTotalReturn(mutualFund.getMinimumAmount());
             userMutualFundInfo.setMinimumAmount(mutualFund.getMinimumAmount());
+            userMutualFundInfo.setMutualFundName(mutualFund.getName());
             userMutualFundInfoHandler.saveUserMutualFundInfo(userMutualFundInfo);
             Long savings = userGameInfo.getSavings();
             Long savingBalance = savings - mutualFund.getMinimumAmount();

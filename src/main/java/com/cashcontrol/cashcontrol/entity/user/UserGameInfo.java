@@ -43,7 +43,7 @@ public class UserGameInfo extends DBTimeStamp{
     private Long savings;
 
     @Column(name = "level")
-    private String level;
+    private Long level;
 
 
 

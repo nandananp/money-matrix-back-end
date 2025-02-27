@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface StockRepository extends JpaRepository<Stock,Long> {
+public interface StockRepository extends JpaRepository<Stock,UUID> {
 
-    Stock findById(UUID uuid);
+
 
 }

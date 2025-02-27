@@ -12,4 +12,8 @@ public interface UserLiabilityInfoRepository extends JpaRepository<UserLiability
     List<UserLiabilityInfo> findAllByUserId(UUID userId);
 
     void deleteAllByUserId(UUID userId);
+
+    void deleteAllByUserIdAndLiabilityId(UUID uuid, UUID uuid1);
+
+    UserLiabilityInfo findByUserIdAndLiabilityId(UUID uuid, UUID uuid1);
 }

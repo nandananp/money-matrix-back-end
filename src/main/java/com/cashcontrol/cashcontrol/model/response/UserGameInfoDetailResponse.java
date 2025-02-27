@@ -18,9 +18,11 @@ public class UserGameInfoDetailResponse {
     private String jobName;
     private String salary;
     private Long passiveIncome;
+    private Long Savings;
     private List<UserMutualFundResponse> mutualFunds;
     private List<UserStockResponse> stocks;
     private List<UserLiabilityInfoResponse> liabilities;
     private String gameStatus;
+    private Long level;
 
 }

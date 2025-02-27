@@ -26,10 +26,10 @@ public class StockRepoHandler {
     }
 
     public Stock findStockByStockId(String eventId) {
-        return stockRepository.findById(UUID.fromString(eventId));
+        return stockRepository.findById(UUID.fromString(eventId)).get();
     }
 
-    public List<Stock> findAllStocksByIds(List<Long> stockIds) {
+    public List<Stock> findAllStocksByIds(List<UUID> stockIds) {
         return stockRepository.findAllById(stockIds);
     }
 

@@ -72,7 +72,7 @@ public class StockService {
             throw new InvalidRequestException("Stock not found with this event id");
         }
         UserStockInfo userStockInfo = userStockInfoRepoHandler.findUserStocksByUserIdAndStockId(userGameInfo.getUserId(),stock.getId());
-        if (eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_SELL)){
+        if (eventRequest.getEventDecision().equals(UserConstants.EVENT_DECISION_SELL)){
             if (userStockInfo == null){
                 throw new InvalidRequestException("currently you don have this stock in you Asset column..!");
             }else {
@@ -86,8 +86,8 @@ public class StockService {
                 userStockInfoRepoHandler.deleteStockByUserIdAndStockId(userStockInfo.getUserId(),userStockInfo.getStockId());
                 return new SuccessResponse("event updated successfully");
             }
-        }else if (eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_ACCEPT) ||
-        eventRequest.getEventType().equals(UserConstants.EVENT_DECISION_BUY)){
+        }else if (eventRequest.getEventDecision().equals(UserConstants.EVENT_DECISION_ACCEPT) ||
+        eventRequest.getEventDecision().equals(UserConstants.EVENT_DECISION_BUY)){
             if (userStockInfo != null){
                 throw new InvalidRequestException("currently you can't buy same stock twice..");
             }else {

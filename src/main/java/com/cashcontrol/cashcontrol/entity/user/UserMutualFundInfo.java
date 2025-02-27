@@ -33,4 +33,7 @@ public class UserMutualFundInfo extends DBTimeStamp{
     @Column(name = "minimum_amount")
     private Long minimumAmount;
 
+    @Column(name = "mutual_fund_name")
+    private String mutualFundName;
+
 }

@@ -75,6 +75,12 @@ public class UserController {
     }
 
     //update financial report based
+    //update liability
+    @PostMapping("/update/{liabilityId}")
+    public SuccessResponse updateLiability(@PathVariable(value = "liabilityId")String liabilityId) throws InvalidRequestException {
+        return userService.updateLiabilityDetailsOfUser(liabilityId);
+    }
+
 
 
 

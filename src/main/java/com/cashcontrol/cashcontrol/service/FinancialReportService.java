@@ -8,6 +8,7 @@ import com.cashcontrol.cashcontrol.entity.user.UserMutualFundInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserStockInfo;
 import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
 import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
+import com.cashcontrol.cashcontrol.model.response.LevelStatusResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.service.repoHandler.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,10 +136,19 @@ public class FinancialReportService {
 
         //find liability
         List<UserLiabilityInfo> userLiabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userGameInfo.getUserId());
-        if (userLiabilities.isEmpty()){
-            userGameInfo.setLevel(2L);
-        }
+        boolean isLevelOneSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 0;
+        boolean isLevelTwoSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 1 &&
+                userGameInfo.getPassiveIncome() >= userGameInfo.getSalary();
+        boolean isLevelThreeSatisField = userLiabilities.isEmpty() && userGameInfo.getLevel() == 2 &&
+                userGameInfo.getAssetsCount() >=2;
 
+        if (isLevelOneSatisfied){
+            userGameInfo.setLevel(1L);
+        }else if (isLevelTwoSatisfied){
+            userGameInfo.setLevel(2L);
+        } else if (isLevelThreeSatisField) {
+            userGameInfo.setLevel(3L);
+        }
         userGameInfoRepoHandler.save(userGameInfo);
 
         //update financial details
@@ -147,5 +157,20 @@ public class FinancialReportService {
     }
 
 
+    public LevelStatusResponse getLevelFlag(String userId, String levelNumber) {
+        UserGameInfo userGameInfo = userGameInfoRepoHandler.findUserGameInfoByUserIdAndStatus(UUID.fromString(userId), Status.ACTIVE.name());
+        if (userGameInfo.getLevel().toString().equals(levelNumber) && !userGameInfo.isLevelFlag()){
+            userGameInfo.setLevelFlag(true);
+            userGameInfoRepoHandler.save(userGameInfo);
+            LevelStatusResponse levelStatusResponse = new LevelStatusResponse();
+            levelStatusResponse.setLevel(userGameInfo.getLevel());
+            levelStatusResponse.setLevelFlag(true);
+            return levelStatusResponse;
+        }
+        LevelStatusResponse levelStatusResponse = new LevelStatusResponse();
+        levelStatusResponse.setLevel(userGameInfo.getLevel());
+        levelStatusResponse.setLevelFlag(false);
+        return levelStatusResponse;
 
+    }
 }

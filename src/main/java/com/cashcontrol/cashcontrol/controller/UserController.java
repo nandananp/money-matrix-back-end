@@ -6,6 +6,7 @@ import com.cashcontrol.cashcontrol.model.request.LoginRequest;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
 import com.cashcontrol.cashcontrol.model.response.*;
 import com.cashcontrol.cashcontrol.service.EventService;
+import com.cashcontrol.cashcontrol.service.FinancialReportService;
 import com.cashcontrol.cashcontrol.service.LevelInfoService;
 import com.cashcontrol.cashcontrol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,12 @@ public class UserController {
     @PostMapping("/update/{liabilityId}")
     public SuccessResponse updateLiability(@PathVariable(value = "liabilityId")String liabilityId) throws InvalidRequestException {
         return userService.updateLiabilityDetailsOfUser(liabilityId);
+    }
+
+    @GetMapping("/status/level/{levelNumber}")
+    public LevelStatusResponse getLevelFlag(@PathVariable(value = "levelNumber")String levelNumber){
+        return userService.getLevelFlag(levelNumber);
+
     }
 
 

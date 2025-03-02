@@ -45,6 +45,12 @@ public class UserGameInfo extends DBTimeStamp{
     @Column(name = "level")
     private Long level;
 
+    @Column(name = "level_flag")
+    private boolean levelFlag = false;
+
+    @Column(name = "assets_count")
+    private Long AssetsCount;
+
 
 
 

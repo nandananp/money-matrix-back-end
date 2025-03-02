@@ -8,6 +8,7 @@ import com.cashcontrol.cashcontrol.exception.ResourceNotFoundException;
 import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.LoginRequest;
 import com.cashcontrol.cashcontrol.model.request.UserRegistrationRequest;
+import com.cashcontrol.cashcontrol.model.response.LevelStatusResponse;
 import com.cashcontrol.cashcontrol.model.response.LoginResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
 import com.cashcontrol.cashcontrol.model.response.UserGameInfoDetailResponse;
@@ -130,6 +131,17 @@ public class UserService {
             throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
         }
         return financialReportService.updateLiabilityDetailsOfUser(userId,liabilityId);
+
+    }
+
+    public LevelStatusResponse getLevelFlag(String levelNumber) {
+        String userId = SecurityUtil.currentUserId();
+        User user = userRepoHandler.findUserByUserId(userId);
+        if (user == null){
+            log.info("Exception: user not exist in the system for userId : {} ",userId);
+            throw new ResourceNotFoundException(UserConstants.USER_NOT_FOUND);
+        }
+        return financialReportService.getLevelFlag(userId,levelNumber);
 
     }
 }

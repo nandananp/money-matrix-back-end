@@ -135,20 +135,20 @@ public class FinancialReportService {
         userGameInfo.setSavings(savings);
 
         //find liability
-        List<UserLiabilityInfo> userLiabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userGameInfo.getUserId());
-        boolean isLevelOneSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 0;
-        boolean isLevelTwoSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 1 &&
-                userGameInfo.getPassiveIncome() >= userGameInfo.getSalary();
-        boolean isLevelThreeSatisField = userLiabilities.isEmpty() && userGameInfo.getLevel() == 2 &&
-                userGameInfo.getAssetsCount() >=2;
-
-        if (isLevelOneSatisfied){
-            userGameInfo.setLevel(1L);
-        }else if (isLevelTwoSatisfied){
-            userGameInfo.setLevel(2L);
-        } else if (isLevelThreeSatisField) {
-            userGameInfo.setLevel(3L);
-        }
+//        List<UserLiabilityInfo> userLiabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userGameInfo.getUserId());
+//        boolean isLevelOneSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 0;
+//        boolean isLevelTwoSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 1 &&
+//                userGameInfo.getPassiveIncome() >= userGameInfo.getSalary();
+//        boolean isLevelThreeSatisField = userLiabilities.isEmpty() && userGameInfo.getLevel() == 2 &&
+//                userGameInfo.getAssetsCount() >=2;
+//
+//        if (isLevelOneSatisfied){
+//            userGameInfo.setLevel(1L);
+//        }else if (isLevelTwoSatisfied){
+//            userGameInfo.setLevel(2L);
+//        } else if (isLevelThreeSatisField) {
+//            userGameInfo.setLevel(3L);
+//        }
         userGameInfoRepoHandler.save(userGameInfo);
 
         //update financial details

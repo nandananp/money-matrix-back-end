@@ -72,6 +72,7 @@ public class GameStartService {
         userGameInfo.setSavings(job.getSalary());
         userGameInfo.setStatus(Status.ACTIVE.name());
         userGameInfo.setLevel(0L);
+        userGameInfo.setLevelFlag(false);
         userGameInfoRepoHandler.save(userGameInfo);
         //adding expenses to the user
         expenseService.updateExpenses(userId);

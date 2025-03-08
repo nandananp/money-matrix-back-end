@@ -159,6 +159,14 @@ public class FinancialReportService {
 
     public LevelStatusResponse getLevelFlag(String userId, String levelNumber) {
         UserGameInfo userGameInfo = userGameInfoRepoHandler.findUserGameInfoByUserIdAndStatus(UUID.fromString(userId), Status.ACTIVE.name());
+        List<UserLiabilityInfo> userLiabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userGameInfo.getUserId());
+        if(userGameInfo.getPassiveIncome() >= userGameInfo.getSalary()){
+            userGameInfo.setLevel(2L);
+            userGameInfo.setLevelFlag(false);
+        }else if (userLiabilities.isEmpty()){
+            userGameInfo.setLevel(1L);
+        }
+        userGameInfoRepoHandler.save(userGameInfo);
         if (userGameInfo.getLevel().toString().equals(levelNumber) && !userGameInfo.isLevelFlag()){
             userGameInfo.setLevelFlag(true);
             userGameInfoRepoHandler.save(userGameInfo);

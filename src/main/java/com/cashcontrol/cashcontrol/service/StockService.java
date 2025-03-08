@@ -79,9 +79,9 @@ public class StockService {
                 Long stockCount = userStockInfo.getStockCount();
                 Long currentPrice = stock.getCurrentPrice();
                 Long investedAmount = userStockInfo.getInvestedAmount();
-                Long savings = userGameInfo.getSavings();
-                savings = savings + currentPrice;
-                userGameInfo.setSavings(savings);
+                Long passiveIncome = userGameInfo.getPassiveIncome();
+                passiveIncome = passiveIncome + currentPrice;
+                userGameInfo.setPassiveIncome(passiveIncome);
                 userGameInfoRepoHandler.save(userGameInfo);
                 userStockInfoRepoHandler.deleteStockByUserIdAndStockId(userStockInfo.getUserId(),userStockInfo.getStockId());
                 return new SuccessResponse("event updated successfully");

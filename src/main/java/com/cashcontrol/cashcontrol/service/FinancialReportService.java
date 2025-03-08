@@ -67,6 +67,8 @@ public class FinancialReportService {
             savings = savings - minimumAmount;
         }
         userMutualFundInfoHandler.saveAllMutualFunds(userMutualFunds);
+        long sumOfReturn = userMutualFunds.stream().mapToLong(UserMutualFundInfo::getTotalReturn).sum();
+        userGameInfo.setPassiveIncome(sumOfReturn);
         userGameInfo.setSavings(savings);
         userGameInfoRepoHandler.save(userGameInfo);
     }
@@ -103,8 +105,13 @@ public class FinancialReportService {
                 Long fullAmount = userLiability.getFullAmount();
                 Long emi = userLiability.getEmi();
                 fullAmount = fullAmount - emi;
-                savings = savings - emi;
-                userLiability.setFullAmount(fullAmount);
+                if (fullAmount <= 0){
+                    userLiability.setFullAmount(0L);
+                    userLiabilityInfoHandler.deleteLiabilityByUserIdAndLiabilityIId(userGameInfo.getUserId().toString(),userLiability.getLiabilityId().toString());
+                }else {
+                    savings = savings - emi;
+                    userLiability.setFullAmount(fullAmount);
+                }
             }
             userGameInfo.setSavings(savings);
             userLiabilityInfoHandler.saveAllLiabilities(userLiabilities);
@@ -133,22 +140,6 @@ public class FinancialReportService {
         Long fullAmount = userLiabilityInfo.getFullAmount();
         savings = savings - fullAmount;
         userGameInfo.setSavings(savings);
-
-        //find liability
-//        List<UserLiabilityInfo> userLiabilities = userLiabilityInfoHandler.findUserLiabilityByUserId(userGameInfo.getUserId());
-//        boolean isLevelOneSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 0;
-//        boolean isLevelTwoSatisfied = userLiabilities.isEmpty() && userGameInfo.getLevel() == 1 &&
-//                userGameInfo.getPassiveIncome() >= userGameInfo.getSalary();
-//        boolean isLevelThreeSatisField = userLiabilities.isEmpty() && userGameInfo.getLevel() == 2 &&
-//                userGameInfo.getAssetsCount() >=2;
-//
-//        if (isLevelOneSatisfied){
-//            userGameInfo.setLevel(1L);
-//        }else if (isLevelTwoSatisfied){
-//            userGameInfo.setLevel(2L);
-//        } else if (isLevelThreeSatisField) {
-//            userGameInfo.setLevel(3L);
-//        }
         userGameInfoRepoHandler.save(userGameInfo);
 
         //update financial details

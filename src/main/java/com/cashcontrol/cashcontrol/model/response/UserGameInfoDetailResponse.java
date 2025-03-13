@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -24,5 +25,6 @@ public class UserGameInfoDetailResponse {
     private List<UserLiabilityInfoResponse> liabilities;
     private String gameStatus;
     private Long level;
+    private Map<String,Long> salaryReport;
 
 }

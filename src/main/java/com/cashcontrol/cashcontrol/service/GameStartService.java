@@ -16,9 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 @Slf4j
 @Service
 public class GameStartService {
@@ -119,7 +118,21 @@ public class GameStartService {
         gameInfoDetailResponse.setGameStatus(userGameInfo.getStatus());
         gameInfoDetailResponse.setSavings(userGameInfo.getSavings());
         gameInfoDetailResponse.setLevel(userGameInfo.getLevel());
+        constrcutMetaData(gameInfoDetailResponse);
         return gameInfoDetailResponse;
+    }
+
+    private static void constrcutMetaData(UserGameInfoDetailResponse gameInfoDetailResponse) {
+        Long salary = Long.valueOf(gameInfoDetailResponse.getSalary());
+        long sumOfEmi = gameInfoDetailResponse.getLiabilities().stream().mapToLong(liability -> Long.parseLong(liability.getEmi())).sum();
+        long fullSipAmount = gameInfoDetailResponse.getMutualFunds().stream().mapToLong(UserMutualFundResponse::getSipAmount).sum();
+        long savings = salary - (sumOfEmi +fullSipAmount);
+        Map<String,Long> metaData = new HashMap<>();
+        metaData.put("SALARY",salary);
+        metaData.put("EMI'S",sumOfEmi);
+        metaData.put("SIP AMOUNT",fullSipAmount);
+        metaData.put("SAVINGS",savings);
+        gameInfoDetailResponse.setSalaryReport(metaData);
     }
 
     private static List<UserLiabilityInfoResponse> getUserLiabilityResponse(List<UserLiabilityInfo> liabilities) {

@@ -3,6 +3,7 @@ package com.cashcontrol.cashcontrol.service;
 import com.cashcontrol.cashcontrol.constants.AdminConstants;
 import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.admin.Expense;
+import com.cashcontrol.cashcontrol.entity.admin.Status;
 import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserLiabilityInfo;
 import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
@@ -10,6 +11,7 @@ import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.ExpenseRequest;
 import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
+import com.cashcontrol.cashcontrol.service.core.SecurityUtil;
 import com.cashcontrol.cashcontrol.service.repoHandler.ExpenseRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserLiabilityInfoHandler;
@@ -45,6 +47,7 @@ public class ExpenseService {
     }
 
     public EventResponse generateCreditCardEvent() {
+        UserGameInfo userGameInfo = getUserGameInfo(SecurityUtil.currentUserId());
         EventResponse eventResponse = new EventResponse();
         eventResponse.setEventId(UserConstants.CREDIT_CARD_ID);
         eventResponse.setEventType(AdminConstants.EVENT_CREDIT_CARD);
@@ -52,11 +55,18 @@ public class ExpenseService {
         eventResponse.setEventDescription("Pay your credit card bill!!!");
         eventResponse.setEventFixedAmount(CREDIT_CARD_AMOUNT);
         eventResponse.setEventMandatory(true);
+        eventResponse.setSavings(userGameInfo.getSavings());
         return eventResponse;
 
     }
 
+    private UserGameInfo getUserGameInfo(String userId) {
+        return userGameInfoRepoHandler
+                .findUserGameInfoByUserIdAndStatus(UUID.fromString(userId), Status.ACTIVE.name());
+    }
+
     public EventResponse generateDonationEvent() {
+        UserGameInfo userGameInfo = getUserGameInfo(SecurityUtil.currentUserId());
         EventResponse eventResponse = new EventResponse();
         eventResponse.setEventId(UserConstants.DONATION_ID);
         eventResponse.setEventType(AdminConstants.EVENT_DONATION);
@@ -64,10 +74,12 @@ public class ExpenseService {
         eventResponse.setEventDescription("Donate amount to charity..");
         eventResponse.setEventFixedAmount(DONATION_AMOUNT);
         eventResponse.setEventMandatory(false);
+        eventResponse.setSavings(userGameInfo.getSavings());
         return eventResponse;
     }
 
     public EventResponse generateWaterBillEvent() {
+        UserGameInfo userGameInfo = getUserGameInfo(SecurityUtil.currentUserId());
         EventResponse eventResponse = new EventResponse();
         eventResponse.setEventId(UserConstants.WATER_BILL_ID);
         eventResponse.setEventType(AdminConstants.EVENT_WATER_BILL);
@@ -75,6 +87,7 @@ public class ExpenseService {
         eventResponse.setEventDescription("Pay your water bill..");
         eventResponse.setEventFixedAmount(WATER_BILL);
         eventResponse.setEventMandatory(true);
+        eventResponse.setSavings(userGameInfo.getSavings());
         return eventResponse;
     }
 

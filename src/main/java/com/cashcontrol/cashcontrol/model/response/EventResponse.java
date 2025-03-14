@@ -20,5 +20,6 @@ public class EventResponse {
     private Long eventMaximumAmount;
     private Long eventFixedAmount;
     private Long eventCurrentPrice;
+    private Long savings;
 
 }

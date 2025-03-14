@@ -3,6 +3,7 @@ package com.cashcontrol.cashcontrol.service;
 import com.cashcontrol.cashcontrol.constants.AdminConstants;
 import com.cashcontrol.cashcontrol.constants.UserConstants;
 import com.cashcontrol.cashcontrol.entity.admin.MutualFund;
+import com.cashcontrol.cashcontrol.entity.admin.Status;
 import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserMutualFundInfo;
 import com.cashcontrol.cashcontrol.exception.InvalidRequestException;
@@ -10,6 +11,7 @@ import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.MutualFundRequest;
 import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
+import com.cashcontrol.cashcontrol.service.core.SecurityUtil;
 import com.cashcontrol.cashcontrol.service.repoHandler.MutualFundRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserMutualFundInfoHandler;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class MutualFundService {
@@ -52,7 +55,7 @@ public class MutualFundService {
     }
 
     public EventResponse generateMutualFundEvent() {
-
+        UserGameInfo userGameInfo = getUserGameInfo(SecurityUtil.currentUserId());
         MutualFund mutualFund = randomEventFetcher();
         EventResponse eventResponse = new EventResponse();
         eventResponse.setEventId(mutualFund.getId().toString());
@@ -61,9 +64,14 @@ public class MutualFundService {
         eventResponse.setEventDescription(mutualFund.getDescription());
         eventResponse.setEventFixedAmount(mutualFund.getMinimumAmount());
         eventResponse.setEventMandatory(false);
+        eventResponse.setSavings(userGameInfo.getSavings());
         return eventResponse;
 
 
+    }
+    private UserGameInfo getUserGameInfo(String userId) {
+        return userGameInfoRepoHandler
+                .findUserGameInfoByUserIdAndStatus(UUID.fromString(userId), Status.ACTIVE.name());
     }
 
     public SuccessResponse mutualFundDecision(EventRequest eventRequest, UserGameInfo userGameInfo) throws InvalidRequestException {

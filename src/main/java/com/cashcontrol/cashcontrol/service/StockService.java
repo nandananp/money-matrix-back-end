@@ -2,6 +2,7 @@ package com.cashcontrol.cashcontrol.service;
 
 import com.cashcontrol.cashcontrol.constants.AdminConstants;
 import com.cashcontrol.cashcontrol.constants.UserConstants;
+import com.cashcontrol.cashcontrol.entity.admin.Status;
 import com.cashcontrol.cashcontrol.entity.admin.Stock;
 import com.cashcontrol.cashcontrol.entity.user.UserGameInfo;
 import com.cashcontrol.cashcontrol.entity.user.UserStockInfo;
@@ -10,6 +11,7 @@ import com.cashcontrol.cashcontrol.model.request.EventRequest;
 import com.cashcontrol.cashcontrol.model.request.StockRequest;
 import com.cashcontrol.cashcontrol.model.response.EventResponse;
 import com.cashcontrol.cashcontrol.model.response.SuccessResponse;
+import com.cashcontrol.cashcontrol.service.core.SecurityUtil;
 import com.cashcontrol.cashcontrol.service.repoHandler.StockRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserGameInfoRepoHandler;
 import com.cashcontrol.cashcontrol.service.repoHandler.UserStockInfoRepoHandler;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class StockService {
@@ -48,6 +51,7 @@ public class StockService {
     }
 
     public EventResponse generateStockEvent() {
+        UserGameInfo userGameInfo = getUserGameInfo(SecurityUtil.currentUserId());
         Stock stock = randomEventFetcher();
         EventResponse eventResponse = new EventResponse();
         eventResponse.setEventId(stock.getId().toString());
@@ -58,7 +62,12 @@ public class StockService {
         eventResponse.setEventMaximumAmount(stock.getMaximumPrice());
         eventResponse.setEventCurrentPrice(stock.getCurrentPrice());
         eventResponse.setEventMandatory(false);
+        eventResponse.setSavings(userGameInfo.getSavings());
         return eventResponse;
+    }
+    private UserGameInfo getUserGameInfo(String userId) {
+        return userGameInfoRepoHandler
+                .findUserGameInfoByUserIdAndStatus(UUID.fromString(userId), Status.ACTIVE.name());
     }
 
     private Long calculateCurrentPrice(Long minAmount,Long maxAmount){
@@ -101,7 +110,9 @@ public class StockService {
                 Long savings = userGameInfo.getSavings();
                 Long currentPrice = stock.getCurrentPrice();
                 Long investedAmount = currentPrice* eventRequest.getEventCount();
-
+                if(investedAmount > savings){
+                    throw new InvalidRequestException("You don have enough money to buy this much stock");
+                }
                 userNewStock.setInvestedAmount(investedAmount);
                 userStockInfoRepoHandler.saveUserStockInfo(userNewStock);
                 long savingsBalance = savings - investedAmount;
